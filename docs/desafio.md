@@ -23,18 +23,46 @@ A importância da revisão de código seguro (code review), é crucial para iden
 
 
 ### 2. Quais são os princípios básicos de uma arquitetura segura para um aplicativo web?
+Depende de que arquitetura estamos falando, se tivermos falando sobre arquitetura de software, posso citar:
+1. Segregação de componentes
+2. Independencia de modulos externos (utilização de contratos/interfaces)
+3. Validação de input e output (utilização de DTOs)
+4. Segregação de camadas (Segregar infra, app e domain)
+5. Implementação de logs nos use cases
 
-### 3. Quais são as melhores práticas para autenticação e controle de acesso em um
-aplicativo web?
+Porém se falarmos de arquitetura de infra, posso citar:
+1. Utilização de load balancer para o isolamento do servidor de aplicação na internet
+2. Utilização de WAF para bloqueio de tentativas de ataque
+3. Integração com OAUTH segregando a credencial do usuário do aplicativo web 
+4. Integração com SIEM e SOAR para resposta a incidente
+5. Integração com APM para observabilidade
 
-### 4. Quais são os riscos associados ao uso de bibliotecas e componentes de terceiros
-em um aplicativo web? Como você mitigaria esses riscos?
+### 3. Quais são as melhores práticas para autenticação e controle de acesso em um aplicativo web?
+#### Autenticação:
+1. Senhas Fortes
+2. Autenticação de Dois Fatores
+3. Proteção contra Força Bruta
+4. Bloqueio da conta por tentativas erradas
+5. Notificação para o usuário da tentativa de login 
+
+#### Controle de Acesso:
+1. Single Sign-On (SSO)
+3. OAuth para Delegação de Acesso
+4. JWT para Tokens de Acesso (Stateless)
+5. Monitoramento e Logging
+6. Politicas de autorização (OPA)
+
+
+### 4. Quais são os riscos associados ao uso de bibliotecas e componentes de terceiros em um aplicativo web? Como você mitigaria esses riscos?
+Bibliotecas podem conter vulnerabilidades que podem comprometer completamente a aplicação que utiliza ela. Para mitigar o risco é necessário que o código seja feito com baixo acoplamento e dependencia de bibliotecas, para caso seja necessário a troca não impossibilite a mudança. Existe algumas ferramentas que identificam as vulnerabilidades como, Jfrog Xray ou Github Dependabot, mas a mitigação seria ou trocar a versão da lib vulnerável ou implementar desenvolver a lib como módulo próprio. Por isso é necessário design patterns como adapter para ajudar o baixo acoplamento dessas libs.  
 
 ## Parte 2: Segurança de Código
-5. Quais os principais projetos da OWASP para ajudar desenvolvedores a escrever
-código seguro?
-6. Como você integraria as práticas do SSDLC em um ambiente de desenvolvimentoTeste de Fluxo de Dados:
-ágil? Descreva os principais desafios e como você os superaria.
+5. Quais os principais projetos da OWASP para ajudar desenvolvedores a escrever código seguro?
+1. OWASP Top Ten
+2. OWASP Cheat Sheet Series
+3. OWASP Proactive Controls
+
+6. Como você integraria as práticas do SSDLC em um ambiente de desenvolvimento ágil? Descreva os principais desafios e como você os superaria.
 
 ## Parte 3: Teste de Segurança
 7. Como você lidaria com a descoberta e correção de vulnerabilidades de segurança
