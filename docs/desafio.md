@@ -57,70 +57,85 @@ Porém se falarmos de arquitetura de infra, posso citar:
 Bibliotecas podem conter vulnerabilidades que podem comprometer completamente a aplicação que utiliza ela. Para mitigar o risco é necessário que o código seja feito com baixo acoplamento e dependencia de bibliotecas, para caso seja necessário a troca não impossibilite a mudança. Existe algumas ferramentas que identificam as vulnerabilidades como, Jfrog Xray ou Github Dependabot, mas a mitigação seria ou trocar a versão da lib vulnerável ou implementar desenvolver a lib como módulo próprio. Por isso é necessário design patterns como adapter para ajudar o baixo acoplamento dessas libs.  
 
 ## Parte 2: Segurança de Código
-5. Quais os principais projetos da OWASP para ajudar desenvolvedores a escrever código seguro?
+### 5. Quais os principais projetos da OWASP para ajudar desenvolvedores a escrever código seguro?
  - OWASP Top Ten
  - OWASP Cheat Sheet Series
  - OWASP Proactive Controls
 
-6. Como você integraria as práticas do SSDLC em um ambiente de desenvolvimento ágil? Descreva os principais desafios e como você os superaria.
+### 6. Como você integraria as práticas do SSDLC em um ambiente de desenvolvimento ágil? Descreva os principais desafios e como você os superaria.
 
-    Eu integraria as praticas do SSDLC conforme a imagem abaixo:
+Eu integraria as praticas do SSDLC conforme a imagem abaixo:
 
-    [Fluxo do SSDLC](./img/SSDLC.png)
+[Fluxo do SSDLC](./img/SSDLC.png)
 
-    Detalharei todos os pontos relevantes para o processo de desenvolvimento ágil.
+Detalharei todos os pontos relevantes para o processo de desenvolvimento ágil.
 
-    ####  Concepção do projeto:
-    - SD Elements para Modelagem de Ameaças
-    - OWASP Risk Rating Calculator para classificação de risco do projeto
-    #### Desenvolvimento seguro:
-    - Code Review manual
-    - Extensão do SAST para verificação em tempo de desenvolvimento via IDE
+####  Concepção do projeto:
+- SD Elements para Modelagem de Ameaças
+- OWASP Risk Rating Calculator para classificação de risco do projeto
+#### Desenvolvimento seguro:
+- Code Review manual
+- Extensão do SAST para verificação em tempo de desenvolvimento via IDE
 
-    #### Versionamento seguro:
-    - Git Hooks para commit seguro (evitar principalmente Hard-Coded Credentials)
-    - Segregação de branchs utilizando git flow (facilita a remoção da branch vulnerável no SVC)
+#### Versionamento seguro:
+- Git Hooks para commit seguro (evitar principalmente Hard-Coded Credentials)
+- Segregação de branchs utilizando git flow (facilita a remoção da branch vulnerável no SVC)
 
-    #### Pipeline seguro:
-    - Checkov como IAC Scan
-    - Fortify ou Vera Code como SAST Scan
-    - OWASP Dependency Check como SCA Scan
-    - Projeto cross com o time de QA para realização de testes regressivos
+#### Pipeline seguro:
+- Checkov como IAC Scan
+- Fortify ou Vera Code como SAST Scan
+- OWASP Dependency Check como SCA Scan
+- Projeto cross com o time de QA para realização de testes regressivos
 
-    #### Artifactory seguro:
-    - Trivy para escanear os containers
-    - Cosign para assinar as imagens
+#### Artifactory seguro:
+- Trivy para escanear os containers
+- Cosign para assinar as imagens
 
-    #### Ambiente de Homologação:
-    - Realização de Pentest no ambiente 
-    - Realização de testes dinamicos DAST 
+#### Ambiente de Homologação:
+- Realização de Pentest no ambiente 
+- Realização de testes dinamicos DAST 
 
-    #### Gerenciamento de vulnerabilidade:
-    - Defect Dojo para centralizar todos os insumos (vulnerabilidades, testes, relatórios)
-    - Grafana para gerar KPIs da área
-    - Integração com sistema de gerenciamento de projeto   
+#### Gerenciamento de vulnerabilidade:
+- Defect Dojo para centralizar todos os insumos (vulnerabilidades, testes, relatórios)
+- Grafana para gerar KPIs da área
+- Integração com sistema de gerenciamento de projeto   
 
-    Os principais desafios para incluir todo esse processo, além do custo financeiro das aquisições das ferramentas, seria a automatizar todo o processo e realizar a sustentação de todo o processo. Dependendo da demanda o Defect Dojo perderia desempenho, então poderia ter que mudar a arquitetura do Defect Dojo para alcançar o objetivo. 
+Os principais desafios para incluir todo esse processo, além do custo financeiro das aquisições das ferramentas, seria a automatizar todo o processo e realizar a sustentação de todo o processo. Dependendo da demanda o Defect Dojo perderia desempenho, então poderia ter que mudar a arquitetura do Defect Dojo para alcançar o objetivo. 
 
-    Para superar esses problemas precisaria de desenvolver automação para a inclusão dos resultados para o defectdojo principalmente das ferramentas open sources, pois as mesmas não enviariam o resultado dos scan de forma nativa então por exemplo, teria que ser criado uma imagem docker personalizada juntamente com o script de automação que enviasse o resultado para o engagement do projeto relacionado.
+Para superar esses problemas precisaria de desenvolver automação para a inclusão dos resultados para o defectdojo principalmente das ferramentas open sources, pois as mesmas não enviariam o resultado dos scan de forma nativa então por exemplo, teria que ser criado uma imagem docker personalizada juntamente com o script de automação que enviasse o resultado para o engagement do projeto relacionado.
 
-    Também outro desafio seria o tamanho do time que realizaria a sustentação, seria um time muito grande, talvez 15 à 20 profissionais para sustentar todo o processo.
+Também outro desafio seria o tamanho do time que realizaria a sustentação, seria um time muito grande, talvez 15 à 20 profissionais para sustentar todo o processo.
 
 ## Parte 3: Teste de Segurança
-7. Como você lidaria com a descoberta e correção de vulnerabilidades de segurança em um aplicativo legado? Quais seriam os passos envolvidos nesse processo?
+### 7. Como você lidaria com a descoberta e correção de vulnerabilidades de segurança em um aplicativo legado? Quais seriam os passos envolvidos nesse processo?
 
-    Incluiria a vulnerabilidade no sistema de gerenciamento de vulnerabilidades para seguir o fluxo de vulnerabilidade, classificaria a vulnerabilidade para definir o SLA de correção, procuraria o tech lead do projeto (caso exista) e explicaria a vulnerabilidade e correção. Caso não existisse um dono levaria para o head da área esse ponto para definir um dono. Caso persista sem dono, escalaria o assunto pedindo a permissão para a realização da correção, caso fosse aprovado, realizaria uma análise de impacto para avaliar como as correções afetarão o aplicativo. Caso o impacto da vulnerabilidade fosse maior que o impacto de correção, realizaria a correção da vulnerabilidaade e acionaria o time de QA para incluir um teste regressivo de acordo com a vulnerabilidade e contexto encontrado. Realizaria diversos testes em ambiente não produtivo até que estivesse claro que a correção não afetaria o aplicativo em ambiente produtivo. Após isso fecharia a vulnerabilidade finalizando o processo de gestão de vulnerabilidade.
+Incluiria a vulnerabilidade no sistema de gerenciamento de vulnerabilidades para seguir o fluxo de vulnerabilidade, classificaria a vulnerabilidade para definir o SLA de correção, procuraria o tech lead do projeto (caso exista) e explicaria a vulnerabilidade e correção. Caso não existisse um dono levaria para o head da área esse ponto para definir um dono. Caso persista sem dono, escalaria o assunto pedindo a permissão para a realização da correção, caso fosse aprovado, realizaria uma análise de impacto para avaliar como as correções afetarão o aplicativo. Caso o impacto da vulnerabilidade fosse maior que o impacto de correção, realizaria a correção da vulnerabilidaade e acionaria o time de QA para incluir um teste regressivo de acordo com a vulnerabilidade e contexto encontrado. Realizaria diversos testes em ambiente não produtivo até que estivesse claro que a correção não afetaria o aplicativo em ambiente produtivo. Após isso fecharia a vulnerabilidade finalizando o processo de gestão de vulnerabilidade.
 
-8. Descreva as principais ameaças que as aplicações podem enfrentar num contexto web/api.
- - IDOR
- - SQL Injection
- - DDOS
- - Desserialização de objeto
- - SSRF (Server Side Request Forgery)
- - Vazamento de dados
- - Terceirização das funcionalidades
- - XSS
- - 
+### 8. Descreva as principais ameaças que as aplicações podem enfrentar num contexto web/api.
+1. **IDOR (Insecure Direct Object References):**
+   - *Descrição:* Um atacante tenta acessar ou modificar recursos diretamente, explorando falhas na implementação do controle de acesso, sem a devida autorização.
+
+2. **SQL Injection:**
+   - *Descrição:* Injeção de código SQL malicioso através de inputs da aplicação, permitindo que um atacante manipule o banco de dados, execute consultas não autorizadas ou exponha dados sensíveis.
+
+3. **DDoS (Distributed Denial of Service):**
+   - *Descrição:* Um ataque que visa sobrecarregar um serviço, aplicação ou rede com tráfego excessivo, tornando-o inacessível para usuários legítimos.
+
+4. **Deserialização de Objeto:**
+   - *Descrição:* Ataques que exploram falhas na deserialização de objetos, permitindo que um invasor manipule objetos serializados para executar código arbitrário.
+
+5. **SSRF (Server Side Request Forgery):**
+   - *Descrição:* Um ataque no qual um invasor induz o servidor a fazer requisições a recursos internos, podendo explorar vulnerabilidades de rede ou acessar informações sensíveis.
+
+6. **Vazamento de Dados:**
+   - *Descrição:* Divulgação não autorizada ou acidental de informações sensíveis, seja através de exposição inadequada de APIs, configurações incorretas ou outras falhas de segurança.
+
+7. **Terceirização das Funcionalidades (Third-party Component):**
+   - *Descrição:* Utilização de componentes ou serviços de terceiros sem a devida verificação de segurança, podendo resultar em vulnerabilidades ou dependência de serviços externos não confiáveis.
+
+8. **XSS (Cross-Site Scripting):**
+   - *Descrição:* Inserção de scripts maliciosos em páginas web, que são então executados no navegador dos usuários, permitindo a coleta de informações, roubo de sessões ou execução de ações indesejadas em nome do usuário.
+
 
 ## Parte 4: Segurança em DevOps
 9. Como a segurança pode ser integrada em um pipeline de CI/CD? Descreva algumas práticas e ferramentas que podem ser usadas para garantir a segurança em cada estágio do ciclo de vida do desenvolvimento de software.
@@ -130,6 +145,6 @@ Bibliotecas podem conter vulnerabilidades que podem comprometer completamente a 
 10. Contêineres e Orquestração: Quais são as preocupações de segurança comuns ao usar contêineres (por exemplo, Docker) e orquestração (por exemplo, Kubernetes)?
 Como você mitigaria essas preocupações?
  
- As preocupações de seguranças mais comuns de docker são as vulnerabilidades das imagens, que podem ser exploradas nos containers, injeção de container maliciosos nos namespaces das empresas o que permite realizar deploy da imagem vulnerável e ser passível de exploração (como o que aconteceu com a SolarWinds) e falta de hardenização e gestão de permissionamento do container (normalmente tudo é rodado como root).
+    As preocupações de seguranças mais comuns de docker são as vulnerabilidades das imagens, que podem ser exploradas nos containers, injeção de container maliciosos nos namespaces das empresas o que permite realizar deploy da imagem vulnerável e ser passível de exploração (como o que aconteceu com a SolarWinds) e falta de hardenização e gestão de permissionamento do container (normalmente tudo é rodado como root).
 
- O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configurações de segurança em arquivo Dockerfile e manifesto k8s, apesar da análise de k8s de ser uma feature experimental. Além disso, podemos assinar os containers com o cosign trazendo legitmidade nas nossas imagens, também conseguimos realizar o controle de imagens não assinadas no cluster kubernetes com algum policy engine como por exemplo o Kyverno que é um dos mais famosos policy engines de kubernetes, ele permite baixar somente as imagens que são assinadas no container registry utilizado. O Kubernetes é mais complexos e é preciso configurar muita coisa por exemplo Network Policy, controle de acesso com RBAC,Security Content.  
+    O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configurações de segurança em arquivo Dockerfile e manifesto k8s, apesar da análise de k8s de ser uma feature experimental. Além disso, podemos assinar os containers com o cosign trazendo legitmidade nas nossas imagens, também conseguimos realizar o controle de imagens não assinadas no cluster kubernetes com algum policy engine como por exemplo o Kyverno que é um dos mais famosos policy engines de kubernetes, ele permite baixar somente as imagens que são assinadas no container registry utilizado. O Kubernetes é mais complexos e é preciso configurar muita coisa por exemplo Network Policy, controle de acesso com RBAC,Security Content.  

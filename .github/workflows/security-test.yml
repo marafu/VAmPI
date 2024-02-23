@@ -1,0 +1,41 @@
+name: Testes de Segurança na Esteira
+
+on:
+  push:
+    branches:
+      - security
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
+
+      - name: Configuração do Ambiente
+        run: |
+          # Configurar o ambiente, instalar dependências, etc.
+
+      - name: Executar Horusec (SAST)
+        run: |
+          # Comando para executar o Horusec (certifique-se de configurar o Horusec adequadamente)
+          docker run --rm -v $(pwd):/src -e HORUSEC_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} horuszup/horusec-cli:v1.10.1
+
+      - name: Construir e Executar a Aplicação
+        run: |
+          # Comando para construir e executar a aplicação, se necessário
+          docker-compose -f path/to/your/docker-compose.yml up --build --detach
+
+      - name: Esperar a Inicialização da Aplicação
+        run: |
+          # Adicione comandos aqui para esperar que a aplicação esteja pronta
+
+      - name: Executar Nuclei (DAST)
+        run: |
+          # Comando para executar o Nuclei (substitua pelo seu comando específico)
+          docker run --rm --network=host -v $(pwd):/nuclei nuclei/nuclei -target http://localhost:porta-da-sua-aplicacao -t /nuclei/seus-templates/
+
+      - name: Parar e Remover os Contêineres
+        run: |
+          docker-compose -f path/to/your/docker-compose.yml down
