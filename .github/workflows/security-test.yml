@@ -19,23 +19,19 @@ jobs:
 
       - name: Executar Horusec (SAST)
         run: |
-          # Comando para executar o Horusec (certifique-se de configurar o Horusec adequadamente)
-          docker run --rm -v $(pwd):/src -e HORUSEC_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} horuszup/horusec-cli:v1.10.1
+          docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/src/horusec horuszup/horusec-cli:latest horusec start -p /src/horusec -P $(pwd)
 
       - name: Construir e Executar a Aplicação
         run: |
-          # Comando para construir e executar a aplicação, se necessário
-          docker-compose -f path/to/your/docker-compose.yml up --build --detach
+          docker-compose -f docker-compose.yaml up --build --detach
 
       - name: Esperar a Inicialização da Aplicação
         run: |
-          # Adicione comandos aqui para esperar que a aplicação esteja pronta
+          sleep 30
 
       - name: Executar Nuclei (DAST)
         run: |
-          # Comando para executar o Nuclei (substitua pelo seu comando específico)
-          docker run --rm --network=host -v $(pwd):/nuclei nuclei/nuclei -target http://localhost:porta-da-sua-aplicacao -t /nuclei/seus-templates/
-
+          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -target http://localhost:5002 -t http,cves -severity critical,high,medium,low
       - name: Parar e Remover os Contêineres
         run: |
-          docker-compose -f path/to/your/docker-compose.yml down
+          docker-compose -f docker-compose.yaml down
