@@ -27,12 +27,12 @@ jobs:
 
       - name: Esperar a Inicialização da Aplicação
         run: |
-          curl -i http://localhost:5002
+          curl -i http://127.0.0.1:5002
           sleep 10
 
       - name: Executar Nuclei (DAST)
         run: |
-          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -target http://localhost:5002 -t http,cves -severity critical,high,medium,low
+          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -target http://127.0.0.1:5002 -t http,cves -severity critical,high,medium,low
       - name: Parar e Remover os Contêineres
         run: |
           docker-compose -f docker-compose.yaml down
