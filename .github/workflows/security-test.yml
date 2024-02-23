@@ -19,7 +19,7 @@ jobs:
 
       - name: Executar Horusec (SAST)
         run: |
-          docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/src/horusec horuszup/horusec-cli:latest horusec start -p /src/horusec -P $(pwd)
+          docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/src/horusec horuszup/horusec-cli:v2.9.0-beta.3 horusec start -p /src/horusec -P $(pwd)
 
       - name: Construir e Executar a Aplicação
         run: |
