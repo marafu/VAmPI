@@ -103,7 +103,7 @@ Os principais desafios para incluir todo esse processo, além do custo financeir
 
 Para superar esses problemas precisaria de desenvolver automação para a inclusão dos resultados para o defectdojo principalmente das ferramentas open sources, pois as mesmas não enviariam o resultado dos scan de forma nativa então por exemplo, teria que ser criado uma imagem docker personalizada juntamente com o script de automação que enviasse o resultado para o engagement do projeto relacionado.
 
-Também outro desafio seria o tamanho do time que realizaria a sustentação, seria um time muito grande, talvez 15 à 20 profissionais para sustentar todo o processo.
+Também outro desafio seria o tamanho do time que realizaria a sustentação, seria um time muito grande para sustentar todo o processo.
 
 ## Parte 3: Teste de Segurança
 ### 7. Como você lidaria com a descoberta e correção de vulnerabilidades de segurança em um aplicativo legado? Quais seriam os passos envolvidos nesse processo?
