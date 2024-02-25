@@ -1,0 +1,38 @@
+name: Testes de Segurança na Esteira
+
+on:
+  push:
+    branches:
+      - security
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
+
+      - name: Configuração do Ambiente
+        run: |
+          echo "${{ env.URL_TEST }}"
+
+      - name: Executar Horusec (SAST)
+        run: |
+          docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/src/horusec horuszup/horusec-cli:v2.9.0-beta.3 horusec start -p /src/horusec -P $(pwd)
+
+      - name: Construir e Executar a Aplicação
+        run: |
+          docker-compose -f docker-compose.yaml up --build --detach
+
+      - name: Esperar a Inicialização da Aplicação
+        run: |
+          sleep 10
+          curl -i http://127.0.0.1:5002
+
+      - name: Executar Nuclei (DAST)
+        run: |
+          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -l /nuclei/hosts.txt -tags sqli,xss,password,email
+      - name: Parar e Remover os Contêineres
+        run: |
+          docker-compose -f docker-compose.yaml down
