@@ -167,7 +167,12 @@ Como medida de detecção pode ser usado um EDR para a detecção em tempo real 
 
 ### 12. Modelagem de Ameaças API: Os candidatos devem identificar os riscos do cenário apresentado e propor mitigações.
 
-[Modelagem de Ameaças](modelagem-ameaca-api.md)
+[Modelagem de Ameaças (API)](modelagem-ameaca-api.md)
 
 ### 13. DevSecOps: Faça um clone do seguinte repositório: https://github.com/erev0s/VAmPI/. Crie um workflow que inclua uma verificação de código com uma ferramenta de SAST e uma de DAST a sua escolha. Crie um novo readme, explicando a finalidade e o processo de implementação das ferramentas de segurança escolhidas na pipeline. Por fim, disponibilize num GitHub público o repositório com os testes funcionando e compartilhe o link conosco.
 
+[https://github.com/marafu/VAmPI/actions](https://github.com/marafu/VAmPI/actions)
+
+### 14. Modelagem de Ameaças Mobile: Os candidatos devem identificar os riscos do cenário apresentado e propor mitigações.
+
+[Modelagem de Ameaças (Mobile)](./)
