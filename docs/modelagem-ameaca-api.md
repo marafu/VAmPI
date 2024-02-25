@@ -1,5 +1,6 @@
 #  Modelagem de Ameaças
 
+
 ## Identificação dos ativos
 - AuthN User
 - AuthZ Transaction
@@ -8,11 +9,10 @@
 - Account
 - Police
 
-
 ## Entendimento de cada processo
 - **AuthN User**: processo de autenticação de usuário, no contexto de api, pode ser um sistema de login stateless.
 
-- **AuthZ Transaction**: Este processo parece ser o processo de autorização de uma transação, e como está sendo integrado com o **Policies** e **Bad Account**, esse processo também serve como um motor de fraudes. 
+- **AuthZ Transaction**: Este processo parece ser o processo de autorização de uma transação, e como está sendo integrado com o **Policies** e **Bad Account**, esse processo também serve como um Open Policy Agent (OPA), definindo de forma centralizada se uma determinada solicitação de acesso deve ser permitida ou negada com base nas políticas definidas.
 
 - **Perform Transaction**: Este é o ato de realizar a transação em si, após a autenticação e autorização serem bem-sucedidas.
 
@@ -39,8 +39,10 @@
 
 - **Withdrawal Request / Identification**: Processamento de solicitações de retirada e identificação do cliente.
 
-### Escopo de Autenticação e Autorização
+### Escopo de Autenticação de usuário
 - **AuthN User**: Sistema de verificação da identidade do cliente.
+
+### Escopo de Autorização de transação
 - **AuthZ Transaction**: Sistema de autorização de transações bancárias.
 
 ### Escopo de Processamento de Transações
@@ -61,9 +63,9 @@
 
 ### Escopo de Segurança e Monitoramento
 - **Bad Account Numbers / Bad Accounts**: Detecção e gestão de contas problemáticas.
-
-## Identificação de Ameaças por escopo
-### Escopo de Autenticação e Autorização
+------------
+# Identificação de Ameaças por escopo
+### Escopo de Autenticação (AuthN User)
 - **Roubo de Credenciais**: Captura não autorizada de credenciais de autenticação, como nomes de usuário e senhas.
 - **Ataques de Força Bruta**: Tentativas repetidas e automáticas de adivinhar credenciais de autenticação através de tentativas sistemáticas ou uso de listas de palavras comuns para tentar adivinhar senhas de usuários.
 - **Roubo de Token de Autenticação**: Interceptação ou obtenção indevida de tokens de autenticação válidos para acessar recursos protegidos.
@@ -74,7 +76,26 @@
 - **Vazamento de Credenciais**: Exposição não autorizada de credenciais de autenticação devido a falhas de segurança ou má configuração.
 - **Invasão sistêmica do processo de autenticação ou autorização**: Possibilidade de invasão e posse da maquina provisionada para o sistema de autenticação ou autorização. Por falta de validação de input ou configuração de segurança. 
 
-### Escopo de Processamento de Transações
+### Escopo de autorização de transação (AuthZ Transaction)
+- **Roubo de Credenciais de Acesso**: Atacantes podem obter acesso não autorizado às credenciais de usuários ou sistemas privilegiados, permitindo que eles realizem transações fraudulentas.
+
+- **Alteração de Dados em Trânsito**: Atacantes podem interceptar e modificar dados durante a transmissão entre o cliente e o servidor, alterando o conteúdo da transação para benefício próprio.
+
+- **Ataques de Injeção de Dados**: Atacantes podem injetar comandos maliciosos ou dados falsificados nas solicitações de transação, explorando vulnerabilidades como injeção (SQL, NoSQL, etc) para manipular o comportamento do sistema.
+
+- **Acesso Não Autorizado a Recursos Sensíveis**: Atacantes podem explorar falhas na autorização para acessar recursos ou funcionalidades sensíveis que não deveriam estar disponíveis para eles, permitindo manipulação indevida de dados ou execução de transações não autorizadas.
+
+- **Elevação de Privilégios**: Atacantes podem tentar elevar seus privilégios dentro do sistema, obtendo acesso a funcionalidades ou recursos que normalmente estão além de suas permissões autorizadas.
+
+- **Fraude de Identidade**: Atacantes podem usar informações pessoais roubadas ou falsificadas para se passar por usuários legítimos e realizar transações fraudulentas em seus nomes.
+
+- **Negligência de Controle de Acesso**: Falhas na implementação de controles de acesso adequados podem resultar em acesso não autorizado a funcionalidades ou recursos do sistema, permitindo a realização de transações não autorizadas.
+
+- **Ataques de Negação de Serviço (DoS)**: Atacantes podem sobrecarregar o sistema com solicitações maliciosas, tornando-o inacessível para usuários legítimos ou interrompendo o processamento de transações normais.
+
+- **Manipulação de Transações em Trânsito**: Atacantes podem manipular dados de transações durante a transmissão para modificar os detalhes da transação, como valor ou destinatário bloqueadas (bad accounts), para benefício próprio.
+
+### Escopo de Processamento de Transações (Perform Transaction)
 - **Manipulação de Dados de Transação**: Alteração indevida dos dados de transação para beneficiar o atacante.
 - **Ataques de Replay**: Repetição de transações legítimas capturadas anteriormente para obter ganhos financeiros indevidos.
 - **Injeção de Dados Maliciosos**: Inserção de dados falsos ou maliciosos no fluxo de transações para comprometer a integridade do sistema.
@@ -109,9 +130,49 @@
 - **Ataques de Phishing visando a Conformidade**: Envio de e-mails de phishing disfarçados como comunicações relacionadas à conformidade para enganar os usuários.
 - **Violação de Acordos de Confidencialidade**: Divulgação não autorizada de informações confidenciais relacionadas à conformidade a partes não autorizadas.
 
-### Escopo de Integração com Entidades Externas
+### Escopo de Integração com Entidades Externas (Police)
 - **Falta de Autenticação de Entidades Externas**: Falha na verificação adequada da identidade e autorização das entidades externas antes de permitir o acesso aos sistemas internos.
 - **Ataques de Negação de Serviço**: Sobrecarga intencional dos sistemas por entidades externas para interromper o funcionamento normal ou negar o serviço aos usuários legítimos.
 - **Vazamento de Dados Sensíveis**: Exposição não autorizada de informações sensíveis ou confidenciais devido a falhas na proteção de dados durante a integração com entidades externas.
 - **Falta de Monitoramento de Segurança**: Ausência de monitoramento contínuo das atividades das entidades externas para detectar e responder a atividades maliciosas ou suspeitas.
 - **Violação de Acordos de Nível de Serviço (SLA)**: Não conformidade com os acordos estabelecidos com entidades externas em relação à disponibilidade, desempenho e segurança dos serviços prestados.
+
+--------
+# Recomendações de mitigação
+
+### Mitigações para Autenticação de Usuário (AuthN User):
+- Utilizar um serviço de IAM para centralizar o armazenamento e a gestão de identidades de usuários, simplificando a administração e o controle de acesso em todo o ambiente de TI.
+- Implementar autenticação multifator (MFA) por meio do serviço de IAM, exigindo que os usuários forneçam mais de um método de autenticação para verificar suas identidades.
+- Criar políticas de senha robustas no serviço de IAM, incluindo requisitos de comprimento mínimo, uso de caracteres especiais e expiração regular de senhas, para mitigar ameaças relacionadas à fraqueza das senhas.
+- Utilizar recursos de gerenciamento de sessão e single sign-on (SSO) do serviço de IAM para garantir que os usuários tenham acesso adequado aos recursos necessários após a autenticação inicial, reduzindo a sobrecarga de senhas e logins repetidos.
+- Aproveite os recursos de auditoria e registro de eventos do serviço de IAM para monitorar e rastrear atividades de autenticação de usuários, facilitando a detecção e investigação de incidentes de segurança.
+- Integrar o serviço de IAM com tecnologias de autenticação modernas, como biometria, autenticação baseada em token e autenticação sem senha, para oferecer opções de autenticação mais seguras e convenientes para os usuários.
+
+### Mitigações para Autorização de Transações (AuthZ Transaction):
+- Implementar validação rigorosa dos dados de entrada para prevenir ataques de injeção de código, como injeção de SQL.
+- Implementar controles de acesso baseados em RBAC para garantir que os usuários tenham apenas as permissões necessárias para suas funções.
+- Utilizar tokens de autorização de curta duração para reduzir a janela de oportunidade para ataques de interceptação.
+- Criptografar dados sensíveis durante o transporte e armazenamento para protegê-los contra acesso não autorizado.
+- Implementar mecanismos de revisão e aprovação para transações de alto valor ou sensíveis.
+- Monitorar e auditar atividades de autorização para detectar e responder a comportamentos incomuns ou maliciosos.
+- Integrar o AuthZ em um motor de fraude, para a identificação de comportamentos anormais em contas.
+- Criar politicas de integração bem definidas.
+
+### Mitigações para Processamento de Transações (Perform Transaction):
+- Implementar validação rigorosa dos dados de entrada para prevenir ataques de injeção de código, como injeção de SQL.
+- Utilizar tokenização com expiração para a transação bancária. 
+- Implementar um motor de fraude para a identificação de comportamento anormal nas contas, como por exemplo transações com quantias altas de dinheiro para contas terceiros, transações em horários anormais, etc.
+
+### Mitigações para Registro e Auditoria (Audit Log):
+- Implementar validação rigorosa dos dados de entrada para prevenir ataques de injeção de log.
+- Definir políticas claras para retenção de logs e certifique-se de que os registros de auditoria sejam mantidos por um período adequado de tempo para fins de conformidade e investigação de incidentes.
+- Implementar regras nos logs para o sistemas de monitoramento em tempo real para analisar e alertar sobre atividades incomuns ou suspeitas registradas nos logs de auditoria, verificar a possibilidade de integração com SIEM.
+- Criptografar os registros de auditoria durante o transporte e armazenamento para protegê-los contra acesso não autorizado ou adulteração.
+- Implementar controles de acesso rigorosos para garantir que apenas usuários autorizados possam acessar e modificar os registros de auditoria.
+- Registrar eventos críticos, como tentativas de acesso não autorizado, modificações de configuração e atividades privilegiadas, sejam registrados e monitorados adequadamente.
+
+### Mitigações para Integração com Entidades Externas (Police):
+- Implementar mTLS para estabelecer uma conexão segura entre a API interna e as entidades externas de forma mútua, garantindo que ambas as partes se autentiquem e comuniquem de forma criptografada. O mTLS pode ser usado como uma camada a mais de autenticação.
+- Implementar um serviço de mensageria como Apache Kafka para a que não perca nenhum dado de transação caso o sistema da entidade externa esteja indisponível. 
+- Criptografe mensagens sensíveis antes de enviá-las para as entidades externas por meio da sua API interna para proteger o conteúdo contra acesso não autorizado durante a transmissão.
+- Implementar políticas de rotação regular de chaves (API Keys) para manter a segurança contínua das comunicações entre a API interna e a entidade externa.

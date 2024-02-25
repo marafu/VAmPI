@@ -1,4 +1,4 @@
-#
+# Desafio
 
 ## Parte 1: Conceitos e práticas
 ### 1. Descreva um processo de revisão de código seguro e por que é essencial para a Segurança de Aplicações.
@@ -149,7 +149,7 @@ Como você mitigaria essas preocupações?
     As preocupações de seguranças mais comuns de docker são as vulnerabilidades das imagens, que podem ser exploradas nos containers, injeção de container maliciosos nos namespaces das empresas o que permite realizar deploy da imagem vulnerável e ser passível de exploração (como o que aconteceu com a SolarWinds) e falta de hardenização e gestão de permissionamento do container (normalmente tudo é rodado como root).
 
     O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configurações de segurança em arquivo Dockerfile e manifesto k8s, apesar da análise de k8s de ser uma feature experimental. Além disso, podemos assinar os containers com o cosign trazendo legitmidade nas nossas imagens, também conseguimos realizar o controle de imagens não assinadas no cluster kubernetes com algum policy engine como por exemplo o Kyverno que é um dos mais famosos policy engines de kubernetes, ele permite baixar somente as imagens que são assinadas no container registry utilizado. O Kubernetes é mais complexos e é preciso configurar muita coisa por exemplo Network Policy, controle de acesso com RBAC,Security Content.  
-=======
+
 ### 9. Como a segurança pode ser integrada em um pipeline de CI/CD? Descreva algumas práticas e ferramentas que podem ser usadas para garantir a segurança em cada estágio do ciclo de vida do desenvolvimento de software.
 
 Conforme detalhei na questão 6, podemos utilizar SAST para analizar o código-fonte em tempo de esteira, por exemplo o Fortify que analisa e identifica vulnerabilidades no código-fonte, porém, temos o Vera Code que realiza scans de SAST e SCA no seu projeto, identificando as vulnerabilidades do código-fonte e bibliotecas utilizadas. Temos também o trivy que analisa códigos IAC, podemos usar também o Clair (que recentemente foi incluido no docker hub) para analisar os containers, podemos assinar as nossas imagens docker com o COSIGN antes de enviar para o repositorio de imagens de container. 
@@ -165,5 +165,3 @@ O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configura�
 O ataque foi iniciado por meio de um phishing personalizado, porém não dá para determinar como foi feito esse phishing, o fluxo do ataque segue com o download de um arquivo malicioso, execução do arquivo, a infecção da maquina, exclusão de arquivo, uma tentativa de acesso externo, listagem ou acesso das contas da maquina, execução da interface do usuário, execução de firmware da maquina provavelmente via kernel, acesso ao sistema de desligamente e reinicialização do sistema, limitou o registrição de acesso da máquina, além de acessar a politica de senha da maquina, por fim houve um ataque de negação de serviço.
 
 Como medida de detecção pode ser usado um EDR para a detecção em tempo real do ataque, como mitigação um antivirus poderia ser usado para analisar o arquivo malicioso, caso o EDR não bloqueasse o email e como medida de prevenção um programa de conscientização do usuário pode ser realizado é o mais dificil porém o mais eficaz. 
-
->>>>>>> 5a55ad5 (add doc)
