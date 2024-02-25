@@ -165,3 +165,10 @@ O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configura�
 O ataque foi iniciado por meio de um phishing personalizado, porém não dá para determinar como foi feito esse phishing, o fluxo do ataque segue com o download de um arquivo malicioso, execução do arquivo, a infecção da maquina, exclusão de arquivo, uma tentativa de acesso externo, listagem ou acesso das contas da maquina, execução da interface do usuário, execução de firmware da maquina provavelmente via kernel, acesso ao sistema de desligamente e reinicialização do sistema, limitou o registrição de acesso da máquina, além de acessar a politica de senha da maquina, por fim houve um ataque de negação de serviço.
 
 Como medida de detecção pode ser usado um EDR para a detecção em tempo real do ataque, como mitigação um antivirus poderia ser usado para analisar o arquivo malicioso, caso o EDR não bloqueasse o email e como medida de prevenção um programa de conscientização do usuário pode ser realizado é o mais dificil porém o mais eficaz. 
+
+12. Modelagem de Ameaças API: Os candidatos devem identificar os riscos do cenário apresentado e propor mitigações.
+
+[Modelagem de Ameaças](modelagem-ameaca-api.md)
+
+13. DevSecOps: Faça um clone do seguinte repositório:
+https://github.com/erev0s/VAmPI/. Crie um workflow que inclua uma verificação de código com uma ferramenta de SAST e uma de DAST a sua escolha. Crie um novo readme, explicando a finalidade e o processo de implementação das ferramentas de segurança escolhidas na pipeline. Por fim, disponibilize num GitHub público o repositório com os testes funcionando e compartilhe o link conosco.

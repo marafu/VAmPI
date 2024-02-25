@@ -1,4 +1,5 @@
 #  Modelagem de Ameaças
+Essa modelagem de API se baseou no entendimento da arquitetura do item 12, se basou no modelo STRIDE porém com uma modelagem livre.
 
 
 ## Identificação dos ativos
@@ -11,21 +12,16 @@
 
 ## Entendimento de cada processo
 - **AuthN User**: processo de autenticação de usuário, no contexto de api, pode ser um sistema de login stateless.
-
 - **AuthZ Transaction**: Este processo parece ser o processo de autorização de uma transação, e como está sendo integrado com o **Policies** e **Bad Account**, esse processo também serve como um Open Policy Agent (OPA), definindo de forma centralizada se uma determinada solicitação de acesso deve ser permitida ou negada com base nas políticas definidas.
-
-- **Perform Transaction**: Este é o ato de realizar a transação em si, após a autenticação e autorização serem bem-sucedidas.
-
-- **Audit Log**: Isso envolve registrar a transação ou evento no log de auditoria para monitoramento futuro e análise de segurança.
-
+- **Perform Transaction**: É o processo transação em si, após a autenticação e autorização serem bem-sucedidas.
+- **Audit Log**: Processe de registrar a transação ou evento no log de auditoria para monitoramento futuro.
 - **Police**: Este processo sugere uma possível notificação ou interação com as autoridades financeiras no caso de detecção de atividades suspeitas ou fraudulentas.
-
-- **Account**: Isso indica a conta do usuário.
+- **Account**: Indica a conta do usuário.
+- **Policies**: Indica ser um repositório de políticas de transação.
+- **Bad accounts**: Indica ser um repositórios de contas fraudulentas.
 
 ## Entendimento das fronteiras externas
-
 - **Tellers Counter**: Essa fronteira aparenta ser o ponto de acesso externo  de comunicação com um caixa eletronico, portanto, fora da rede corporativa da empresa. Porém, em um contexto de API pode ser qualquer cliente que integre com a API. 
-
 - **Police**: Essa fronteira aparenta ser um ponto de comunicação externo entre o sistema bancário e as autoridades externas. Em um contexto brasileiro pode ser entendido como o BACEN.
 
 ## Entendimento das linhas de conexão
@@ -44,10 +40,14 @@
 
 ### Escopo de Autorização de transação
 - **AuthZ Transaction**: Sistema de autorização de transações bancárias.
+- **Withdrawal request / Identity**: Conjunto de dados da conta e transação para ser enviado para o **Perform Transaction**.
+- **Withdrawal request / Identity / AuthZ Result**: Conjunto de dados que serão registrados no **Audit Log**.
 
 ### Escopo de Processamento de Transações
 - **Perform Transaction**: Mecanismo central para processamento de transações.
+- **Account balance**: Saldo da conta pré-transação.
 - **New Balance**: Atualização do saldo da conta pós-transação.
+- **Transaction details**: Conjunto de dados que serão registrados no **Audit Log**.
 
 ### Escopo de Registro e Auditoria
 - **Audit Log**: Registro de transações e atividades para auditoria e conformidade. 
