@@ -1,8 +1,6 @@
 # Desafio
 
-## Parte 1: Conceitos e práticas
-### 1. Descreva um processo de revisão de código seguro e por que é essencial para a Segurança de Aplicações.
-
+### 1. 
 Normalmente a primeira camada de revisão de código se dá por meio de uma ferramenta automatizada dentro do processo de desenvolvimento seguro SSDLC, porém podemos revisar manualmente de acordo com uma vulnerabilidade encontrada por um SAST, isso garante legitmidade além de conseguir identificar e remover falsos-positivos encontrados pela ferramenta, também podemos analisar manualmente a ausência de controles de segurança ou analisar o código para identificar algumas vulnerabilidade no dominio do projeto (algum use case inseguro que pode possibilitar um ataque).
 
 Caso haja alguma vulnerabilidade no código-fonte encontrado pelo SAST, nós podemos validar a logica de programação, realizando simulação teorica e aplicação de prova de conceito caso haja disponibilidade. Dependendo da parte do código podemos realizar até mesmo um teste unitário que valide a existencia da vulnerabilidade, podendo ser utilizado em um teste regressivo juntamente com QA.
@@ -22,7 +20,7 @@ Como a questão pede para eu descrever um processo vou focar dominio do projeto 
 A importância da revisão de código seguro (code review), é crucial para identificar vulnerabilidades que normalmente os outros processos não identificam, por exemplo, pentest e ferramentas SASTs. Isso permite melhorar a qualidade do código, garantir conformidade com padrões de segurança, fortalecer a cultura de segurança, reduzir riscos e custos a longo prazo, trazendo confiança para usuário final. 
 
 
-### 2. Quais são os princípios básicos de uma arquitetura segura para um aplicativo web?
+### 2.
 Depende de que arquitetura estamos falando, se tivermos falando sobre arquitetura de software, posso citar:
 1. Segregação de componentes
 2. Independencia de modulos externos (utilização de contratos/interfaces)
@@ -37,7 +35,7 @@ Porém se falarmos de arquitetura de infra, posso citar:
 4. Integração com SIEM e SOAR para resposta a incidente
 5. Integração com APM para observabilidade
 
-### 3. Quais são as melhores práticas para autenticação e controle de acesso em um aplicativo web?
+### 3. 
 #### Autenticação:
 1. Senhas Fortes
 2. Autenticação de Dois Fatores
@@ -53,16 +51,15 @@ Porém se falarmos de arquitetura de infra, posso citar:
 6. Politicas de autorização (OPA)
 
 
-### 4. Quais são os riscos associados ao uso de bibliotecas e componentes de terceiros em um aplicativo web? Como você mitigaria esses riscos?
+### 4. 
 Bibliotecas podem conter vulnerabilidades que podem comprometer completamente a aplicação que utiliza ela. Para mitigar o risco é necessário que o código seja feito com baixo acoplamento e dependencia de bibliotecas, para caso seja necessário a troca não impossibilite a mudança. Existe algumas ferramentas que identificam as vulnerabilidades como, Jfrog Xray ou Github Dependabot, mas a mitigação seria ou trocar a versão da lib vulnerável ou implementar desenvolver a lib como módulo próprio. Por isso é necessário design patterns como adapter para ajudar o baixo acoplamento dessas libs.  
 
-## Parte 2: Segurança de Código
-### 5. Quais os principais projetos da OWASP para ajudar desenvolvedores a escrever código seguro?
+### 5. 
  - OWASP Top Ten
  - OWASP Cheat Sheet Series
  - OWASP Proactive Controls
 
-### 6. Como você integraria as práticas do SSDLC em um ambiente de desenvolvimento ágil? Descreva os principais desafios e como você os superaria.
+### 6.
 
 Eu integraria as praticas do SSDLC conforme a imagem abaixo:
 
@@ -74,8 +71,7 @@ Detalharei todos os pontos relevantes para o processo de desenvolvimento ágil.
 - SD Elements para Modelagem de Ameaças
 - OWASP Risk Rating Calculator para classificação de risco do projeto
 #### Desenvolvimento seguro:
-- Code Review manual
-- Extensão do SAST para verificação em tempo de desenvolvimento via IDE
+- Code Review pode se dar de forma manual ou por meio de extensão da ferramentas SAST para verificação em tempo de desenvolvimento via IDE
 
 #### Versionamento seguro:
 - Git Hooks para commit seguro (evitar principalmente Hard-Coded Credentials)
@@ -107,11 +103,11 @@ Para superar esses problemas precisaria de desenvolver automação para a inclus
 Também outro desafio seria o tamanho do time que realizaria a sustentação, seria um time muito grande, talvez 15 à 20 profissionais para sustentar todo o processo.
 
 ## Parte 3: Teste de Segurança
-### 7. Como você lidaria com a descoberta e correção de vulnerabilidades de segurança em um aplicativo legado? Quais seriam os passos envolvidos nesse processo?
+### 7.
 
 Incluiria a vulnerabilidade no sistema de gerenciamento de vulnerabilidades para seguir o fluxo de vulnerabilidade, classificaria a vulnerabilidade para definir o SLA de correção, procuraria o tech lead do projeto (caso exista) e explicaria a vulnerabilidade e correção. Caso não existisse um dono levaria para o head da área esse ponto para definir um dono. Caso persista sem dono, escalaria o assunto pedindo a permissão para a realização da correção, caso fosse aprovado, realizaria uma análise de impacto para avaliar como as correções afetarão o aplicativo. Caso o impacto da vulnerabilidade fosse maior que o impacto de correção, realizaria a correção da vulnerabilidaade e acionaria o time de QA para incluir um teste regressivo de acordo com a vulnerabilidade e contexto encontrado. Realizaria diversos testes em ambiente não produtivo até que estivesse claro que a correção não afetaria o aplicativo em ambiente produtivo. Após isso fecharia a vulnerabilidade finalizando o processo de gestão de vulnerabilidade.
 
-### 8. Descreva as principais ameaças que as aplicações podem enfrentar num contexto web/api.
+### 8. 
 1. **IDOR (Insecure Direct Object References):**
    - *Descrição:* Um atacante tenta acessar ou modificar recursos diretamente, explorando falhas na implementação do controle de acesso, sem a devida autorização.
 
@@ -150,25 +146,23 @@ Como você mitigaria essas preocupações?
 
     O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configurações de segurança em arquivo Dockerfile e manifesto k8s, apesar da análise de k8s de ser uma feature experimental. Além disso, podemos assinar os containers com o cosign trazendo legitmidade nas nossas imagens, também conseguimos realizar o controle de imagens não assinadas no cluster kubernetes com algum policy engine como por exemplo o Kyverno que é um dos mais famosos policy engines de kubernetes, ele permite baixar somente as imagens que são assinadas no container registry utilizado. O Kubernetes é mais complexos e é preciso configurar muita coisa por exemplo Network Policy, controle de acesso com RBAC,Security Content.  
 
-### 9. Como a segurança pode ser integrada em um pipeline de CI/CD? Descreva algumas práticas e ferramentas que podem ser usadas para garantir a segurança em cada estágio do ciclo de vida do desenvolvimento de software.
+### 9.
 
 Conforme detalhei na questão 6, podemos utilizar SAST para analizar o código-fonte em tempo de esteira, por exemplo o Fortify que analisa e identifica vulnerabilidades no código-fonte, porém, temos o Vera Code que realiza scans de SAST e SCA no seu projeto, identificando as vulnerabilidades do código-fonte e bibliotecas utilizadas. Temos também o trivy que analisa códigos IAC, podemos usar também o Clair (que recentemente foi incluido no docker hub) para analisar os containers, podemos assinar as nossas imagens docker com o COSIGN antes de enviar para o repositorio de imagens de container. 
 
-### 10. Contêineres e Orquestração: Quais são as preocupações de segurança comuns ao usar contêineres (por exemplo, Docker) e orquestração (por exemplo, Kubernetes)?Como você mitigaria essas preocupações?
- 
+### 10. 
 As preocupações de seguranças mais comuns de docker são as vulnerabilidades das imagens, que podem ser exploradas nos containers, injeção de container maliciosos nos namespaces das empresas o que permite realizar deploy da imagem vulnerável e ser passível de exploração (como o que aconteceu com a SolarWinds) e falta de hardenização e gestão de permissionamento do container (normalmente tudo é rodado como root).
 
 O trivy analisa tanto Dockerfile buscando vulnerabilidades e falta de configurações de segurança em arquivo Dockerfile e manifesto k8s, apesar da análise de k8s de ser uma feature experimental. Além disso, podemos assinar os containers com o cosign trazendo legitmidade nas nossas imagens, também conseguimos realizar o controle de imagens não assinadas no cluster kubernetes com algum policy engine como por exemplo o Kyverno que é um dos mais famosos policy engines de kubernetes, ele permite baixar somente as imagens que são assinadas no container registry utilizado. O Kubernetes é mais complexos e é preciso configurar muita coisa por exemplo Network Policy, controle de acesso com RBAC,Security Content.  
 
-### 11. Cenário de Ataque: Analise o cenário hipotético abaixo, onde a empresa foi comprometida através de um acesso inicial via phishing. Os candidatos devem explicar o fluxo do ataque e sugerir medidas de detecção, mitigação e prevenção.
+### 11.
 
 O ataque foi iniciado por meio de um phishing personalizado, porém não dá para determinar como foi feito esse phishing, o fluxo do ataque segue com o download de um arquivo malicioso, execução do arquivo, a infecção da maquina, exclusão de arquivo, uma tentativa de acesso externo, listagem ou acesso das contas da maquina, execução da interface do usuário, execução de firmware da maquina provavelmente via kernel, acesso ao sistema de desligamente e reinicialização do sistema, limitou o registrição de acesso da máquina, além de acessar a politica de senha da maquina, por fim houve um ataque de negação de serviço.
 
 Como medida de detecção pode ser usado um EDR para a detecção em tempo real do ataque, como mitigação um antivirus poderia ser usado para analisar o arquivo malicioso, caso o EDR não bloqueasse o email e como medida de prevenção um programa de conscientização do usuário pode ser realizado é o mais dificil porém o mais eficaz. 
 
-12. Modelagem de Ameaças API: Os candidatos devem identificar os riscos do cenário apresentado e propor mitigações.
+### 12.
 
-[Modelagem de Ameaças](modelagem-ameaca-api.md)
+Modelagem de Ameaças](modelagem-ameaca-api.md)
 
-13. DevSecOps: Faça um clone do seguinte repositório:
-https://github.com/erev0s/VAmPI/. Crie um workflow que inclua uma verificação de código com uma ferramenta de SAST e uma de DAST a sua escolha. Crie um novo readme, explicando a finalidade e o processo de implementação das ferramentas de segurança escolhidas na pipeline. Por fim, disponibilize num GitHub público o repositório com os testes funcionando e compartilhe o link conosco.
+### 13

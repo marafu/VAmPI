@@ -1,5 +1,7 @@
 #  Modelagem de Ameaças
-Essa modelagem de API se baseou no entendimento da arquitetura do item 12, se basou no modelo STRIDE porém com uma modelagem livre.
+Essa modelagem de API se baseou no entendimento da arquitetura do item 12, se basou no modelo STRIDE porém com uma modelagem livre. Por não ter um detalhamento de cada item e nem o nível de abstração que compõe essa arquitetura, então tive que definir os itens da arquitetura. 
+
+O AuthN User, AuthZ Transaction e Perform Transaction, são endpoints necessários para a API, podem ser entendidos também como microserviços. O Account é a entidade que compõe esses endpoints. O Policies e Bad accounts são serviços apartados que são integrados no endpoint AuthZ Transaction. O Police e Custormer são integrações externas.
 
 
 ## Identificação dos ativos
@@ -9,6 +11,8 @@ Essa modelagem de API se baseou no entendimento da arquitetura do item 12, se ba
 - Audit Log
 - Account
 - Police
+- Policies
+- Bad accounts
 
 ## Entendimento de cada processo
 - **AuthN User**: processo de autenticação de usuário, no contexto de api, pode ser um sistema de login stateless.
@@ -26,17 +30,19 @@ Essa modelagem de API se baseou no entendimento da arquitetura do item 12, se ba
 
 ## Entendimento das linhas de conexão
 - **Linha verde**: processos sistemicos esperados
-- **Linha vermelha**: processo criticos, esperado atenção.
-- **Linha amarela**: processo de auditoria.
+- **Linha vermelha**: processo criticos, que envolve atenção.
+- **Linha amarela**: registro de log.
 
 ## Divisão de escopos
 ### Escopo de Interface com o Cliente
 - **Customer Interaction**: Interações diretas com os clientes. Caixa Eletronico e Internet Banking (Web/Mobile).
-
 - **Withdrawal Request / Identification**: Processamento de solicitações de retirada e identificação do cliente.
+- **Money**: dinheiro virtual relacionado a conta do cliente.
 
 ### Escopo de Autenticação de usuário
 - **AuthN User**: Sistema de verificação da identidade do cliente.
+- **Withdrawal request**: Requisição contendo o valor que será transacionado
+- **Identity**: Identidade do usuário, como um token de sessão por exemplo.
 
 ### Escopo de Autorização de transação
 - **AuthZ Transaction**: Sistema de autorização de transações bancárias.
