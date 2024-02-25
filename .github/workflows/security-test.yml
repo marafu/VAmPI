@@ -32,7 +32,7 @@ jobs:
 
       - name: Executar Nuclei (DAST)
         run: |
-          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -l ${{secrets.DAST_URL}}
+          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -t ${{secrets.DAST_URL}}
       - name: Parar e Remover os Contêineres
         run: |
           docker-compose -f docker-compose.yaml down
