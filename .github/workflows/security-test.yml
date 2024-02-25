@@ -15,7 +15,7 @@ jobs:
 
       - name: Configuração do Ambiente
         run: |
-          echo $URL_TEST
+          echo ${{ env.URL_TEST }}
 
       - name: Executar Horusec (SAST)
         run: |
