@@ -66,7 +66,7 @@ Bibliotecas podem conter vulnerabilidades que podem comprometer completamente a 
 
 Eu integraria as praticas do SSDLC conforme a imagem abaixo:
 
-[Fluxo do SSDLC](./img/SSDLC.png)
+![Fluxo do SSDLC](./img/SSDLC.png)
 
 Detalharei todos os pontos relevantes para o processo de desenvolvimento ágil.
 
@@ -137,10 +137,9 @@ Incluiria a vulnerabilidade no sistema de gerenciamento de vulnerabilidades para
 
 
 ## Parte 4: Segurança em DevOps
-<<<<<<< HEAD
 9. Como a segurança pode ser integrada em um pipeline de CI/CD? Descreva algumas práticas e ferramentas que podem ser usadas para garantir a segurança em cada estágio do ciclo de vida do desenvolvimento de software.
 
-    Conforme detalhei na questão 6, podemos utilizar SAST para analizar o código-fonte em tempo de esteira, por exemplo o Fortify que analisa e identifica vulnerabilidades no código-fonte, porém, temos o Vera Code que realiza scans de SAST e SCA no seu projeto, identificando as vulnerabilidades do código-fonte e bibliotecas utilizadas. Temos também o trivy que analisa códigos IAC, podemos usar também o Clair (que recentemente foi incluido no docker hub) para analisar os containers, podemos assinar as nossas imagens docker com o COSIGN antes de enviar para o repositorio de imagens de container. 
+Conforme detalhei na questão 6, podemos utilizar SAST para analizar o código-fonte em tempo de esteira, por exemplo o Fortify que analisa e identifica vulnerabilidades no código-fonte, porém, temos o Vera Code que realiza scans de SAST e SCA no seu projeto, identificando as vulnerabilidades do código-fonte e bibliotecas utilizadas. Temos também o trivy que analisa códigos IAC, podemos usar também o Clair (que recentemente foi incluido no docker hub) para analisar os containers, podemos assinar as nossas imagens docker com o COSIGN antes de enviar para o repositorio de imagens de container. 
 
 10. Contêineres e Orquestração: Quais são as preocupações de segurança comuns ao usar contêineres (por exemplo, Docker) e orquestração (por exemplo, Kubernetes)?
 Como você mitigaria essas preocupações?
