@@ -15,7 +15,6 @@ jobs:
 
       - name: Configuração do Ambiente
         run: |
-          # Configurar o ambiente, instalar dependências, etc.
           echo $URL_TEST
 
       - name: Executar Horusec (SAST)
