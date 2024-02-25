@@ -15,7 +15,7 @@ jobs:
 
       - name: Configuração do Ambiente
         run: |
-          echo ${{ env.URL_TEST }}
+          echo "${{ env.URL_TEST }}"
 
       - name: Executar Horusec (SAST)
         run: |
@@ -32,7 +32,7 @@ jobs:
 
       - name: Executar Nuclei (DAST)
         run: |
-          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -target http://localhost:5002/users/v1/
+          docker run --rm --network=host -v $(pwd):/nuclei projectdiscovery/nuclei:latest -l ${{secrets.DAST_URL}}
       - name: Parar e Remover os Contêineres
         run: |
           docker-compose -f docker-compose.yaml down
